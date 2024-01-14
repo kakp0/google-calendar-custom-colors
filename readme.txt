@@ -1,0 +1,1 @@
+Made this just messing around with Chat GPT 3.5, just include any hex color you want in the title of your event, and run this script in the dev console. For best results I'd reccomend using a js injector to do this automatically everytime you open google calendar. Enjoy :)
