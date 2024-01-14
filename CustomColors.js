@@ -31,27 +31,65 @@ headingElements.forEach(headingElement => {
 
     // Iterate through each div element
     divElements.forEach(function(div) {
-        // Check if the div or its children contain a hex color code
-        var hexColor = getHexColor(div);
-        if (hexColor) {
-            // Check if the div has the 'role' attribute set to "button"
-            if (div.getAttribute('role') === 'button') {
-                // Set the background color to the found hex color
-                div.style.backgroundColor = hexColor;
+    // Check if the div or its children contain a hex color code
+    var hexColor = getHexColor(div);
+    if (hexColor) {
+        // Check if the div has the 'role' attribute set to "button"
+        if (div.getAttribute('role') === 'button') {
+            // Set the background color to the found hex color
+            div.style.backgroundColor = hexColor;
+            
+            
+              var firstChildDiv = div.querySelector('.Jmftzc.gVNoLb.EiZ8Dd');
+              if (firstChildDiv) {
+                          firstChildDiv.style.color = getTextColor(hexColor);
+                          // Set the text color to black
+                        div.style.color = getTextColor(hexColor);
+                  
+                  
+              }
+              
+              // Get all elements with class "yzifAd"
+const yzifAdElements = document.querySelectorAll('.yzifAd');
 
-                // Look for a child span with class "FAxxKc"
-                var spanElement = div.querySelector('.FAxxKc');
+// Define a regex pattern for hex color code
+const hexColorRegex = /#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/;
 
-                // Check if a matching span element is found
-                if (spanElement) {
-                    // Remove the hex color code from the span's content
-                    spanElement.textContent = spanElement.textContent.replace(hexColor, '');
-                }
+// Iterate through each yzifAd element
+yzifAdElements.forEach(yzifAdElement => {
+    // Get the text content of the yzifAd element
+    const yzifAdText = yzifAdElement.textContent;
 
-                // Log something to the console
+    // Find the first match of hex color code in the text content
+    const match = yzifAdText.match(hexColorRegex);
+
+    // If a hex color code is found, remove it from the text content
+    if (match) {
+        
+        const updatedText = yzifAdText.replace(match[0], '');
+            yzifAdElement.style.color = getTextColor(hexColor);
+
+        yzifAdElement.textContent = updatedText.trim(); // Trim to remove leading/trailing spaces
+    }
+});
+
+            
+
+            // Look for a child span with class "FAxxKc"
+            var spanElement = div.querySelector('.FAxxKc');
+
+
+            // Check if a matching span element is found
+            if (spanElement) {
+                // Remove the hex color code from the span's content
+                spanElement.textContent = spanElement.textContent.replace(hexColor, '');
+
+                // Set the text color of the span to black
+                spanElement.style.color = getTextColor(hexColor);
             }
         }
-    });
+    }
+});
 }
 
 // Function to get the first hex color code found in a div or its children
@@ -83,6 +121,17 @@ var observer = new MutationObserver(function(mutations) {
 
 // Configuration of the observer
 var config = { subtree: true, childList: true, characterData: true };
+function getTextColor(hexColor) {
+  // Convert hex to RGB
+  var r = parseInt(hexColor.slice(1, 3), 16);
+  var g = parseInt(hexColor.slice(3, 5), 16);
+  var b = parseInt(hexColor.slice(5, 7), 16);
 
+  // Calculate relative luminance
+  var luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  // Choose black or white based on luminance threshold
+  return luminance > 0.7 ? 'black' : 'white';
+}
 // Start observing the entire document for configured mutations
 observer.observe(document.body, config);
